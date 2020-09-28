@@ -39,3 +39,34 @@ class Registers:
             return (rt, rs)
 
         return (0,0)
+
+
+
+
+
+
+    def getReg(type_reg,num):
+        if type_reg == 'v':
+            reg = Registers.getBinaryAddress(int(num) + 2, 5)
+            return (reg)
+        
+        elif type_reg == 'a':
+            reg = Registers.getBinaryAddress(int(num) + 4, 5)
+            return (reg)
+
+        elif type_reg == 't':
+            if int(num) < 8:
+                reg = Registers.getBinaryAddress(int(num) + 8, 5)
+            else:
+                reg = Registers.getBinaryAddress(int(num)%8 + 24, 5)
+            return (reg)
+
+        elif type_reg == 's':
+            reg = Registers.getBinaryAddress(int(num) + 16, 5)
+            return (reg)
+        
+        elif type_reg == 'k':
+            reg = Registers.getBinaryAddress(int(num) + 26, 5)
+            return (reg)
+
+        return (0,0)
