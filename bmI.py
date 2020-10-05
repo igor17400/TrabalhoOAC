@@ -1,4 +1,4 @@
-class BinaryMachine:
+class BinaryMachineI:
 
     def __init__(self, command, line, opcode, rs, rt, address):
         self.command = command

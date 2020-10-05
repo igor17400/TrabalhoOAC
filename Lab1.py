@@ -2,9 +2,9 @@
 
 import re
 from Registers import *
-from bm import *
+from bmI import *
 from TypeI import *
-
+from TypeR import *
 
 str_path = input('Insira o path para o arquivo .asm: ')
 
@@ -12,21 +12,28 @@ arr_bin_machine = []
 line_pos = 0
 with open(str_path, 'r') as reader:
     for line in reader:
-        line_regex = (re.sub("[$,() ]"," ", line))
-        line_regex = re.sub("  "," ",line_regex)
-        print (f"Line Regex:{line_regex}")
+        #simplifica a instrução removendo partes inutilizadas segundo nossa lógica
+        line_regex = re.sub("[$,() ]"," ", line)
+        line_regex = re.sub("   "," ",line_regex) #debug
+        line_regex = re.sub("  "," ",line_regex) #debug
+        instruction = line_regex.split()
+        print (f"Instruction:{instruction}")
 
-        if line_regex[0:2] == 'lw':
-            rs, rt, address = TypeI.getLwSwInstruction(line_regex)
+        if instruction[0] == 'lw' or instruction[0] == 'sw':
+            opcode = TypeI.getOpcode(instruction[0])
+            rs, rt = TypeI.getIRegisters(instruction)
+            address = TypeI.getAddress(instruction[2])
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachine(line, str(line_pos), '100011', rs, rt, address)
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
 
-        elif line[0:2] == 'sw':
-            rs, rt, address = TypeI.getLwSwInstruction(line_regex)
+        elif instruction[0] == 'add' or instruction[0] == 'sub':
+            rs, rt, rd = TypeR.getRRegisters(instruction)
+            funct = TypeR.getFunct(instruction[0])
+
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachine(line, str(line_pos), '101011', rs, rt, address)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
             arr_bin_machine.append(bm)
 
         line_pos += 1
