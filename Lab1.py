@@ -28,7 +28,15 @@ with open(str_path, 'r') as reader:
             bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
 
-        elif instruction[0] == 'add' or instruction[0] == 'sub':
+        elif instruction[0] in ('add','sub','and','or','nor','xor'):
+            rs, rt, rd = TypeR.getRRegisters(instruction)
+            funct = TypeR.getFunct(instruction[0])
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)
+
+        elif instruction[0] == 'sll' or instruction[0] == 'srl':
             rs, rt, rd = TypeR.getRRegisters(instruction)
             funct = TypeR.getFunct(instruction[0])
 

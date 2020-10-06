@@ -32,7 +32,8 @@ class BinaryMachineR:
         print('----------------------')
         print(self.command)
         print('line: {}'.format(self.line))
-        print('Machine Instruction: {} {} {} {}'.format(self.opcode, self.rs, self.rt, self.rd, self.shamt, self.funct))
+        print('Machine Instruction: {} {} {} {} {} {}'.format(self.opcode, self.rs, self.rt, self.rd, self.shamt, self.funct))
     
     def displayBinMachineHex(self):
+        print(int(self.opcode+self.rs))
         print('Hex: {}'.format(hex(int(self.opcode + self.rs + self.rt + self.rd + self.shamt + self.funct, 2))))
