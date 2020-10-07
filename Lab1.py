@@ -47,5 +47,11 @@ with open(str_path, 'r') as reader:
         line_pos += 1
 
 for bm in arr_bin_machine:
-    bm.displayBinMachine()
-    bm.displayBinMachineHex()
+    if isinstance(bm, BinaryMachineI) :
+        bm.displayBinMachineI()
+        bm.displayBinMachineHexI()
+    elif isinstance(bm, BinaryMachineR) :
+        bm.displayBinMachineR()
+        bm.displayBinMachineHexR()
+    else:
+        print("ERROR - bm type not found")

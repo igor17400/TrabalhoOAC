@@ -17,11 +17,11 @@ class BinaryMachineI:
     def setOpcode(opcode):
         self.opcode = opcode
 
-    def displayBinMachine(self):
+    def displayBinMachineI(self):
         print('----------------------')
         print(self.command)
         print('line: {}'.format(self.line))
         print('Machine Instruction: {} {} {} {}'.format(self.opcode, self.rs, self.rt, self.address))
     
-    def displayBinMachineHex(self):
+    def displayBinMachineHexI(self):
         print('Hex: {}'.format(hex(int(self.opcode + self.rs + self.rt + self.address, 2))))
