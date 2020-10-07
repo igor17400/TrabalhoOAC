@@ -24,4 +24,5 @@ class BinaryMachineI:
         print('Machine Instruction: {} {} {} {}'.format(self.opcode, self.rs, self.rt, self.address))
     
     def displayBinMachineHexI(self):
-        print('Hex: {}'.format(hex(int(self.opcode + self.rs + self.rt + self.address, 2))))
+        aux = int(self.opcode + self.rs + self.rt + self.address, 2)
+        print("Hex: {0:#0{1}x}".format(aux,10)) #hexa 8 bits (+0x)

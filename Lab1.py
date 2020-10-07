@@ -39,9 +39,10 @@ with open(str_path, 'r') as reader:
         elif instruction[0] == 'sll' or instruction[0] == 'srl':
             rs, rt, rd = TypeR.getRRegisters(instruction)
             funct = TypeR.getFunct(instruction[0])
+            shamt = '{0:05b}'.format(int(instruction[3]))
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, shamt, funct)
             arr_bin_machine.append(bm)
 
         line_pos += 1

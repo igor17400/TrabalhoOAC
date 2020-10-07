@@ -35,6 +35,5 @@ class BinaryMachineR:
         print('Machine Instruction: {} {} {} {} {} {}'.format(self.opcode, self.rs, self.rt, self.rd, self.shamt, self.funct))
     
     def displayBinMachineHexR(self):
-        print('Opcode+rs: {} {}'.format(self.opcode, self.rs, self.rt))
-        print('Opcode+rs Hex: {}'.format(hex(int(self.opcode + self.rs + self.rt, 2))))
-        print('Hex: {}'.format(hex(int(self.opcode + self.rs + self.rt + self.rd + self.shamt + self.funct, 2))))
+        aux = int(self.opcode + self.rs + self.rt + self.rd + self.shamt + self.funct, 2)
+        print("Hex: {0:#0{1}x}".format(aux,10)) #hexa 8 bits (+0x)
