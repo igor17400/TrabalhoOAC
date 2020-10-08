@@ -5,14 +5,20 @@ class TypeR:
 
     def getRRegisters(instruction):
         #Define os valores dos registradores em binário
-        rd = Registers.getReg(instruction[1][0],instruction[1][1])
-
-        if instruction[0]!="sll" and instruction[0]!="srl":
-            rs = Registers.getReg(instruction[2][0],instruction[2][1])
-            rt = Registers.getReg(instruction[3][0],instruction[3][1])
+        if instruction[0]!="mult" and instruction[0]!="div":
+            rd = Registers.getReg(instruction[1][0],instruction[1][1])            
         else:
+            rd = '00000'
+
+        if instruction[0]=="sll" or instruction[0]=="srl":
             rs = '00000'
             rt = Registers.getReg(instruction[2][0],instruction[2][1])
+        elif instruction[0]=="mult" or instruction[0]=="div":
+            rs = Registers.getReg(instruction[1][0],instruction[1][1])
+            rt = Registers.getReg(instruction[2][0],instruction[2][1])
+        else:
+            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            rt = Registers.getReg(instruction[3][0],instruction[3][1])    
         
         return rs, rt, rd
         
@@ -33,5 +39,13 @@ class TypeR:
             return '000000'
         elif operation=="srl":
             return '000010'
+        elif operation=="mult":
+            return '011000'
+        elif operation=="div":
+            return '011010'
+        elif operation=="mfhi":
+            return '010000'
+        elif operation=="mflo":
+            return '010010'
         else:
             print("ERROR - FUNCT NOT FOUND")

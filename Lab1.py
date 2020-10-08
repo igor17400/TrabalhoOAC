@@ -44,6 +44,27 @@ with open(str_path, 'r') as reader:
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
             bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, shamt, funct)
             arr_bin_machine.append(bm)
+        
+        elif instruction[0] == 'mult' or instruction[0] == 'div':
+            rs, rt, rd = TypeR.getRRegisters(instruction)
+            funct = TypeR.getFunct(instruction[0])
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)
+
+        elif instruction[0] == 'mfhi' or instruction[0] == 'mflo':
+            rs = '00000'
+            rt = '00000'
+            rd = Registers.getReg(instruction[1][0],instruction[1][1])
+            funct = TypeR.getFunct(instruction[0])
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)
+        
+        else:
+            print("ERROR - INSTRUCTION NOT RECOGNIZED")
 
         line_pos += 1
 
