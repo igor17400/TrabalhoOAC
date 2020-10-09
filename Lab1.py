@@ -88,19 +88,44 @@ for i in range(total_text_lines):
 
     elif instruction[0] == 'beq' or instruction[0] == 'bne':
         opcode = TypeI.getOpcode(instruction[0])
-        rs, rt = TypeI.getIRegisters(instruction, instruction[0])
-        address = TypeI.getAddress(instruction, instruction[0], line_pos, labels_dict)
+        rs, rt = TypeI.getIRegisters(instruction)
+        address = TypeI.getAddress(instruction, line_pos, labels_dict)
 
         # Criar o objeto e salva-lo em uma list para acesso posteriormente
         bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
-    elif instruction[0] == 'j':
+    elif instruction[0] == 'j' or instruction[0] == 'jal':
         opcode = TypeJ.getOpcode(instruction[0])
         address = TypeJ.getAddress(instruction, line_pos, labels_dict)
 
         # Criar o objeto e salva-lo em uma list para acesso posteriormente
         bm = BinaryMachineJ(line, str(line_pos), opcode, address)
+        arr_bin_machine.append(bm)
+
+    elif instruction[0] == 'jr':
+        opcode = TypeJ.getOpcode(instruction[0])
+        address = TypeJ.getAddress(instruction, line_pos, labels_dict, instruction[0])
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineJ(line, str(line_pos), opcode, address)
+        arr_bin_machine.append(bm)
+
+    elif instruction[0] == 'jalr':
+        rs, rt, rd = TypeR.getRRegisters(instruction)
+        funct = TypeR.getFunct(instruction[0])
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+        arr_bin_machine.append(bm)
+
+    elif instruction[0] == 'lui':
+        opcode = TypeI.getOpcode(instruction[0])
+        rs, rt = TypeI.getIRegisters(instruction)
+        address = TypeI.getAddress(instruction)
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
     else:

@@ -36,4 +36,13 @@ class Registers:
             reg = Registers.getBinaryAddress(int(num) + 26, 5)
             return (reg)
 
+        elif type_reg == 'gp':
+            reg = Registers.getBinaryAddress(28, 5)
+            return (reg)
+
+        elif type_reg == 'ra':
+            reg = Registers.getBinaryAddress(31, 5)
+            return (reg)
+        
+
         return (0,0)

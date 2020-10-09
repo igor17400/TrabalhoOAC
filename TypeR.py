@@ -16,10 +16,14 @@ class TypeR:
         elif instruction[0]=="mult" or instruction[0]=="div":
             rs = Registers.getReg(instruction[1][0],instruction[1][1])
             rt = Registers.getReg(instruction[2][0],instruction[2][1])
+        elif instruction[0] == "jalr":
+            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            rt = '00000'
         else:
             rs = Registers.getReg(instruction[2][0],instruction[2][1])
             rt = Registers.getReg(instruction[3][0],instruction[3][1])    
         
+
         return rs, rt, rd
         
     def getFunct(operation):
@@ -47,5 +51,7 @@ class TypeR:
             return '010000'
         elif operation=="mflo":
             return '010010'
+        elif operation=="jalr":
+            return "001001"
         else:
             print("ERROR - FUNCT NOT FOUND")
