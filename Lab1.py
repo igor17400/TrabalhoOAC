@@ -3,8 +3,10 @@
 import re
 from Registers import *
 from bmI import *
+from bmJ import *
 from TypeI import *
 from TypeR import *
+from TypeJ import *
 from General import *
 
 # str_path = input('Insira o path para o arquivo .asm: ')
@@ -93,6 +95,14 @@ for i in range(total_text_lines):
         bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
+    elif instruction[0] == 'j':
+        opcode = TypeJ.getOpcode(instruction[0])
+        address = TypeJ.getAddress(instruction, line_pos, labels_dict)
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineJ(line, str(line_pos), opcode, address)
+        arr_bin_machine.append(bm)
+
     else:
         print("ERROR - INSTRUCTION NOT RECOGNIZED")
 
@@ -105,6 +115,9 @@ for bm in arr_bin_machine:
     elif isinstance(bm, BinaryMachineR) :
         bm.displayBinMachineR()
         bm.displayBinMachineHexR()
+    elif isinstance(bm, BinaryMachineJ) :
+        bm.displayBinMachineJ()
+        bm.displayBinMachineHexJ()
     else:
         print("ERROR - bm type not found")
 

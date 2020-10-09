@@ -8,6 +8,8 @@ class Registers:
             return '{0:06b}'.format(num)
         elif num_bits == 16:
             return '{0:016b}'.format(num)
+        elif num_bits == 26:
+            return '{0:026b}'.format(num)
 
     #recebe um registrador da ISA MIPS com a divisão e retorna o número binário correspondente àquele registrador
     def getReg(type_reg,num):
