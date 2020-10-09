@@ -12,11 +12,17 @@ class TypeI:
             rt = Registers.getReg(instruction[2][0],instruction[2][1])
             return rs, rt
 
-        if instruction[0] == 'lui':
+        elif instruction[0] == 'lui':
             rs = '00000'
             rt = Registers.getReg(instruction[1][0],instruction[1][1])
-            
             return rs, rt
+
+        elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
+                instruction[0] == 'ori' or instruction[0] == 'xori':
+            rt = Registers.getReg(instruction[1][0],instruction[1][1])
+            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            return rs, rt
+
         else:
             #Define os valores dos registradores em binário
             rt = Registers.getReg(instruction[1][0],instruction[1][1])
@@ -34,10 +40,15 @@ class TypeI:
                 address = Registers.getBinaryAddress(temp, 16)
             return address
 
-        if instruction[0] == 'lui':
-            print('CU')
+        elif instruction[0] == 'lui':
             imidiate_int = int(instruction[2], 0)
-            print(imidiate_int)
+            address = Registers.getBinaryAddress(imidiate_int, 16)
+
+            return address
+
+        elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
+                instruction[0] == 'ori' or instruction[0] == 'xori':
+            imidiate_int = int(instruction[3], 0)
             address = Registers.getBinaryAddress(imidiate_int, 16)
 
             return address
@@ -58,5 +69,13 @@ class TypeI:
             return "000101"
         elif operation=="lui":
             return "001111"
+        elif operation=="addi":
+            return "001000"
+        elif operation=="andi":
+            return "001100"
+        elif operation=="ori":
+            return "001101"
+        elif operation=="xori":
+            return "001110"
         else:
             print("ERROR - OPCODE NOT FOUND")

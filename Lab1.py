@@ -128,6 +128,16 @@ for i in range(total_text_lines):
         bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
+    elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
+            instruction[0] == 'ori' or instruction[0] == 'xori':
+        opcode = TypeI.getOpcode(instruction[0])
+        rs, rt = TypeI.getIRegisters(instruction)
+        address = TypeI.getAddress(instruction)
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+        arr_bin_machine.append(bm)
+
     else:
         print("ERROR - INSTRUCTION NOT RECOGNIZED")
 
