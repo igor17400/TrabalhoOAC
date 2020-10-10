@@ -13,7 +13,12 @@ class Registers:
 
     #recebe um registrador da ISA MIPS com a divisão e retorna o número binário correspondente àquele registrador
     def getReg(type_reg,num):
-        if type_reg == 'at':
+
+        if type_reg == 'z':
+            reg = Registers.getBinaryAddress(0, 5)
+            return (reg)
+
+        elif type_reg == 'a' and num == 't':
             reg = Registers.getBinaryAddress(1, 5)
             return (reg)
 
@@ -21,7 +26,7 @@ class Registers:
             reg = Registers.getBinaryAddress(int(num) + 2, 5)
             return (reg)
         
-        elif type_reg == 'a':
+        elif type_reg == 'a' and num.isdigit():
             reg = Registers.getBinaryAddress(int(num) + 4, 5)
             return (reg)
 
@@ -32,7 +37,7 @@ class Registers:
                 reg = Registers.getBinaryAddress(int(num)%8 + 24, 5)
             return (reg)
 
-        elif type_reg == 's':
+        elif type_reg == 's' and num.isdigit():
             reg = Registers.getBinaryAddress(int(num) + 16, 5)
             return (reg)
         
@@ -40,11 +45,15 @@ class Registers:
             reg = Registers.getBinaryAddress(int(num) + 26, 5)
             return (reg)
 
-        elif type_reg == 'gp':
+        elif type_reg == 'g' and num == 'p':
             reg = Registers.getBinaryAddress(28, 5)
             return (reg)
 
-        elif type_reg == 'ra':
+        elif type_reg == 's' and num == 'p':
+            reg = Registers.getBinaryAddress(29, 5)
+            return (reg)
+
+        elif type_reg == 'r':
             reg = Registers.getBinaryAddress(31, 5)
             return (reg)
         

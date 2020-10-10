@@ -15,6 +15,7 @@ def startAnalysis():
     arr_performance_obj = []
 
     # str_path = input('Insira o path para o arquivo .asm: ')
+    # str_path = "./simpleExpression/simple_expression.asm"
     str_path = "./example.asm"
 
     labels_dict, total_execution_lines = getLabelsDict(str_path)
@@ -311,7 +312,7 @@ def startAnalysis():
                 bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
                 arr_bin_machine.append(bm)
 
-            else:
+            else: 
                 opcode = TypeI.getOpcode(instruction[0])
                 rs, rt = TypeI.getIRegisters(instruction)
                 address = TypeI.getAddress(instruction)
@@ -338,6 +339,9 @@ def startAnalysis():
 
         else:
             print("ERROR - INSTRUCTION NOT RECOGNIZED")
+            print('------------------')
+            print(instruction)
+            print('------------------')
 
         line_pos += 1
 

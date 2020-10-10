@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
-import datetime
 import time
+import psutil
+import platform
+import datetime
 
 class Performance:
     def __init__(self, command, typeCommand, time1, time2=''):
@@ -77,3 +79,25 @@ class Performance:
 
         plt.show()
 
+    def get_size(bytes, suffix="B"):
+        """
+            Scale bytes to its proper format
+            e.g:
+                1253656 => '1.20MB'
+                1253656678 => '1.17GB'
+        """
+        factor = 1024
+        for unit in ["", "K", "M", "G", "T", "P"]:
+            if bytes < factor:
+                return f"{bytes:.2f}{unit}{suffix}"
+            bytes /= factor
+
+    def displayMachineInfo():
+        print("="*40, "System Information", "="*40)
+        uname = platform.uname()
+        print(f"System: {uname.system}")
+        print(f"Node Name: {uname.node}")
+        print(f"Release: {uname.release}")
+        print(f"Version: {uname.version}")
+        print(f"Machine: {uname.machine}")
+        print(f"Processor: {uname.processor}")

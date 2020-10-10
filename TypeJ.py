@@ -7,8 +7,7 @@ class TypeJ:
     def getAddress(instruction, current_line, labels_lines, instruction_name=''):
 
         if(instruction_name == 'jr'):
-            address = Registers.getReg(instruction[1], 0)
-            print(address)
+            address = Registers.getReg(instruction[1][0], instruction[1][1])
             address = str(address) + '000000000000000001000'
         
         else:

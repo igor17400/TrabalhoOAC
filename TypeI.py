@@ -4,7 +4,7 @@ from General import *
 
 class TypeI:
     
-    def getIRegisters(instruction):      
+    def getIRegisters(instruction):  
 
         if instruction[0] == 'bne' or instruction[0] == 'beq':
             #Define os valores dos registradores em binário
@@ -38,7 +38,6 @@ class TypeI:
                 rt = Registers.getBinaryAddress(int(instruction[1]), 5)
             else:
                 rt = Registers.getReg(instruction[1][0],instruction[1][1])
-
             if instruction[2].isdigit(): 
                 rs = Registers.getBinaryAddress(int(instruction[2]), 5)
             else:
