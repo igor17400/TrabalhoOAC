@@ -17,6 +17,11 @@ class TypeI:
             rs = Registers.getReg(instruction[1][0],instruction[1][1])
             return rs, rt
 
+        elif instruction[0] == 'bgezal':
+            rt = '10001'
+            rs = Registers.getReg(instruction[1][0],instruction[1][1])
+            return rs, rt
+
         elif instruction[0] == 'lui':
             rs = '00000'
             # Checar se temos uma letra ou numero no reg.
@@ -55,19 +60,13 @@ class TypeI:
 
     def getAddress(instruction, current_line=0, labels_lines={}):
 
-        if instruction[0] == 'bne' or instruction[0] == 'beq':
-            line_destiny = labels_lines[instruction[3]]
-            temp = (line_destiny) - (current_line+1)
-            if temp < 0:
-                address = format(temp if temp >= 0 else (1 << 16) + temp, '016b')
-            else:
-                address = Registers.getBinaryAddress(temp, 16)
-            return address
+        if instruction[0] == 'bne' or instruction[0] == 'beq' or \
+                    instruction[0] == 'bgez' or instruction[0] == 'bgezal':
 
-        if instruction[0] == 'bgez':
-            line_destiny = labels_lines[instruction[2]]
-            print('line_destiny: ', line_destiny)
-            print('current_line: ', current_line)
+            if instruction[0] == 'bgez' or instruction[0] == 'bgezal':
+                line_destiny = labels_lines[instruction[2]]
+            else:
+                line_destiny = labels_lines[instruction[3]]
             temp = (line_destiny) - (current_line+1)
             if temp < 0:
                 address = format(temp if temp >= 0 else (1 << 16) + temp, '016b')
@@ -129,6 +128,8 @@ class TypeI:
         elif operation=="addiu":
             return "001001"
         elif operation=="bgez":
+            return "000001"
+        elif operation=="bgezal":
             return "000001"
         else:
             print("ERROR - OPCODE NOT FOUND")

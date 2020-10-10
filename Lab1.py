@@ -86,16 +86,8 @@ for i in range(total_text_lines):
         bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
         arr_bin_machine.append(bm)
 
-    elif instruction[0] == 'beq' or instruction[0] == 'bne':
-        opcode = TypeI.getOpcode(instruction[0])
-        rs, rt = TypeI.getIRegisters(instruction)
-        address = TypeI.getAddress(instruction, line_pos, labels_dict)
-
-        # Criar o objeto e salva-lo em uma list para acesso posteriormente
-        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
-        arr_bin_machine.append(bm)
-
-    elif instruction[0] == 'bgez':
+    elif instruction[0] == 'beq' or instruction[0] == 'bne' or\
+                instruction[0] == 'bgez' or instruction[0] == 'bgezal':
         opcode = TypeI.getOpcode(instruction[0])
         rs, rt = TypeI.getIRegisters(instruction)
         address = TypeI.getAddress(instruction, line_pos, labels_dict)
