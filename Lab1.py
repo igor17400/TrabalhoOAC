@@ -95,6 +95,15 @@ for i in range(total_text_lines):
         bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
+    elif instruction[0] == 'bgez':
+        opcode = TypeI.getOpcode(instruction[0])
+        rs, rt = TypeI.getIRegisters(instruction)
+        address = TypeI.getAddress(instruction, line_pos, labels_dict)
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+        arr_bin_machine.append(bm)
+
     elif instruction[0] == 'j' or instruction[0] == 'jal':
         opcode = TypeJ.getOpcode(instruction[0])
         address = TypeJ.getAddress(instruction, line_pos, labels_dict)
@@ -131,7 +140,7 @@ for i in range(total_text_lines):
     elif instruction[0] == 'li':
         num = int(instruction[2], 0)
         if num/65536.0 > 1:
-            # Significa que vamos precisar de uma pseudo instrução
+            # PSEUDO INSTRUÇÃO
             num_lui = '0x'
             num_hex = hex(num)[6:]
             for i in range(8 - len(num_hex)):
@@ -145,6 +154,9 @@ for i in range(total_text_lines):
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
             bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
+
+            #### incrementar linha pseudo instrução
+            line_pos += 1 
 
             num_lui = '0x'
             num_hex = hex(num)[:6]
@@ -179,6 +191,9 @@ for i in range(total_text_lines):
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
             bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
+            
+            #### incrementar linha pseudo instrução
+            line_pos += 1 
 
             ### Como temos uma pseudo intrução, será necessário salvar mais objetos
             second_pseudo_inst = ['ori', '1', '1', instruction[3]]
@@ -189,6 +204,9 @@ for i in range(total_text_lines):
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
             bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
+
+            #### incrementar linha pseudo instrução
+            line_pos += 1 
 
             if(instruction[0] == 'andi'):
                 third_pseudo_inst = ['and', instruction[1], instruction[2], '1']
@@ -221,6 +239,8 @@ for i in range(total_text_lines):
 
     line_pos += 1
     
+
+print(labels_dict)
 for bm in arr_bin_machine:
     if isinstance(bm, BinaryMachineI) :
         bm.displayBinMachineI()

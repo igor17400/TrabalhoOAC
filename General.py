@@ -36,6 +36,25 @@ def getLabelsDict(str_path):
                 if instruction[0][:-1] not in labels_lines:
                     labels_lines[instruction[0][:-1]] = line_pos
                 continue
+
+            if instruction[0] == 'li':
+                num = int(instruction[2], 0)
+                if num/65536.0 > 1:
+                    # PSEUDO INSTRUÇÃO
+                    #### incrementar linha pseudo instrução
+                    line_pos += 1 
+
+            if instruction[0] == 'addi' or instruction[0] == 'andi' or\
+                    instruction[0] == 'ori' or instruction[0] == 'xori':
+                imidiate_int = int(instruction[3], 0)
+                if imidiate_int < 0 and (instruction[0] == 'andi' or\
+                            instruction[0] == 'ori' or instruction[0] == 'xori'):
+                    
+                    #### incrementar linha pseudo instrução
+                    line_pos += 1 
+
+                    #### incrementar linha pseudo instrução
+                    line_pos += 1 
             
             line_pos += 1 ## Contador de linhas
 

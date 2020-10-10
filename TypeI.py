@@ -11,6 +11,11 @@ class TypeI:
             rs = Registers.getReg(instruction[1][0],instruction[1][1])
             rt = Registers.getReg(instruction[2][0],instruction[2][1])
             return rs, rt
+        
+        elif instruction[0] == 'bgez':
+            rt = '00001'
+            rs = Registers.getReg(instruction[1][0],instruction[1][1])
+            return rs, rt
 
         elif instruction[0] == 'lui':
             rs = '00000'
@@ -52,6 +57,17 @@ class TypeI:
 
         if instruction[0] == 'bne' or instruction[0] == 'beq':
             line_destiny = labels_lines[instruction[3]]
+            temp = (line_destiny) - (current_line+1)
+            if temp < 0:
+                address = format(temp if temp >= 0 else (1 << 16) + temp, '016b')
+            else:
+                address = Registers.getBinaryAddress(temp, 16)
+            return address
+
+        if instruction[0] == 'bgez':
+            line_destiny = labels_lines[instruction[2]]
+            print('line_destiny: ', line_destiny)
+            print('current_line: ', current_line)
             temp = (line_destiny) - (current_line+1)
             if temp < 0:
                 address = format(temp if temp >= 0 else (1 << 16) + temp, '016b')
@@ -112,5 +128,7 @@ class TypeI:
             return "001110"
         elif operation=="addiu":
             return "001001"
+        elif operation=="bgez":
+            return "000001"
         else:
             print("ERROR - OPCODE NOT FOUND")
