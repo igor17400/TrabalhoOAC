@@ -8,6 +8,7 @@ class TypeJ:
 
         if(instruction_name == 'jr'):
             address = Registers.getReg(instruction[1], 0)
+            print(address)
             address = str(address) + '000000000000000001000'
         
         else:
