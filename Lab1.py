@@ -76,7 +76,7 @@ def startAnalysis():
             bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
             arr_bin_machine.append(bm)
 
-        elif instruction[0] == 'sll' or instruction[0] == '`sr`l':
+        elif instruction[0] == 'sll' or instruction[0] == 'srl' or instruction[0] == 'sra':
             performance = Performance(instruction[0], 'type R', datetime.datetime.now())
 
             rs, rt, rd = TypeR.getRRegisters(instruction)
@@ -117,6 +117,32 @@ def startAnalysis():
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
             bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
             arr_bin_machine.append(bm)
+        
+        elif instruction[0] == 'srav':
+            performance = Performance(instruction[0], 'type R', datetime.datetime.now())
+
+            rt, rs, rd = TypeR.getRRegisters(instruction)
+            funct = TypeR.getFunct(instruction[0])
+
+            performance.setTime2(datetime.datetime.now())
+            arr_performance_obj.append(performance)
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)
+
+        elif instruction[0] == 'madd' or instruction[0] == 'msubu':
+            performance = Performance(instruction[0], 'type R', datetime.datetime.now())
+
+            rs, rt, rd = TypeR.getRRegisters(instruction)
+            funct = TypeR.getFunct(instruction[0])
+
+            performance.setTime2(datetime.datetime.now())
+            arr_performance_obj.append(performance)
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '011100', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)            
 
         elif instruction[0] == 'beq' or instruction[0] == 'bne' or\
                     instruction[0] == 'bgez' or instruction[0] == 'bgezal':
