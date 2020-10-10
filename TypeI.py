@@ -4,7 +4,7 @@ from General import *
 
 class TypeI:
     
-    def getIRegisters(instruction):
+    def getIRegisters(instruction):      
 
         if instruction[0] == 'bne' or instruction[0] == 'beq':
             #Define os valores dos registradores em binário
@@ -14,13 +14,22 @@ class TypeI:
 
         elif instruction[0] == 'lui':
             rs = '00000'
-            rt = Registers.getReg(instruction[1][0],instruction[1][1])
+            # Checar se temos uma letra ou numero no reg.
+            if instruction[1][0].isdigit(): 
+                rt = Registers.getBinaryAddress(int(instruction[1][0]), 5)
+            else:
+                rt = Registers.getReg(instruction[1][0],instruction[1][1])
             return rs, rt
 
         elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
                 instruction[0] == 'ori' or instruction[0] == 'xori':
-            rt = Registers.getReg(instruction[1][0],instruction[1][1])
-            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            # Checar se temos uma letra ou numero no reg.
+            if instruction[1][0].isdigit(): 
+                rt = Registers.getBinaryAddress(int(instruction[1][0]), 5)
+                rs = Registers.getBinaryAddress(int(instruction[2][0]), 5)
+            else:
+                rt = Registers.getReg(instruction[1][0],instruction[1][1])
+                rs = Registers.getReg(instruction[2][0],instruction[2][1])
             return rs, rt
 
         else:
@@ -49,7 +58,11 @@ class TypeI:
         elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
                 instruction[0] == 'ori' or instruction[0] == 'xori':
             imidiate_int = int(instruction[3], 0)
-            address = Registers.getBinaryAddress(imidiate_int, 16)
+            if imidiate_int < 0:
+                address = format(imidiate_int if imidiate_int >= 0 else (1 << 16) + \
+                    imidiate_int, '016b')
+            else:
+                address = Registers.getBinaryAddress(imidiate_int, 16)            
 
             return address
 

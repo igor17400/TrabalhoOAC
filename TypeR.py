@@ -19,6 +19,11 @@ class TypeR:
         elif instruction[0] == "jalr":
             rs = Registers.getReg(instruction[2][0],instruction[2][1])
             rt = '00000'
+        elif instruction[0] == "and" and instruction[3].isdigit() or\
+                instruction[0] == "or" and instruction[3].isdigit() or\
+                instruction[0] == "xor" and instruction[3].isdigit():
+            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            rt = Registers.getBinaryAddress(int(instruction[3]), 5)
         else:
             rs = Registers.getReg(instruction[2][0],instruction[2][1])
             rt = Registers.getReg(instruction[3][0],instruction[3][1])    

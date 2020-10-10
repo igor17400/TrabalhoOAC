@@ -130,13 +130,53 @@ for i in range(total_text_lines):
 
     elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
             instruction[0] == 'ori' or instruction[0] == 'xori':
-        opcode = TypeI.getOpcode(instruction[0])
-        rs, rt = TypeI.getIRegisters(instruction)
-        address = TypeI.getAddress(instruction)
+        imidiate_int = int(instruction[3], 0)
+        if imidiate_int < 0 and (instruction[0] == 'andi' or\
+             instruction[0] == 'ori' or instruction[0] == 'xori'):
+            first_pseudo_inst = ['lui', '1', '0xffff']
+            opcode = TypeI.getOpcode(first_pseudo_inst[0])
+            rs, rt = TypeI.getIRegisters(first_pseudo_inst)
+            address = TypeI.getAddress(first_pseudo_inst)
 
-        # Criar o objeto e salva-lo em uma list para acesso posteriormente
-        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
-        arr_bin_machine.append(bm)
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            arr_bin_machine.append(bm)
+
+            ### Como temos uma pseudo intrução, será necessário salvar mais objetos
+            second_pseudo_inst = ['ori', '1', '1', instruction[3]]
+            opcode = TypeI.getOpcode(second_pseudo_inst[0])
+            rs, rt = TypeI.getIRegisters(second_pseudo_inst)
+            address = TypeI.getAddress(second_pseudo_inst)
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            arr_bin_machine.append(bm)
+
+            if(instruction[0] == 'andi'):
+                third_pseudo_inst = ['and', instruction[1], instruction[2], '1']
+                rs, rt, rd = TypeR.getRRegisters(third_pseudo_inst)
+                funct = TypeR.getFunct(third_pseudo_inst[0])
+            elif(instruction[0] == 'ori'):
+                third_pseudo_inst = ['or', instruction[1], instruction[2], '1']
+                rs, rt, rd = TypeR.getRRegisters(third_pseudo_inst)
+                funct = TypeR.getFunct(third_pseudo_inst[0])
+            elif(instruction[0] == 'xori'):
+                third_pseudo_inst = ['xor', instruction[1], instruction[2], '1']
+                rs, rt, rd = TypeR.getRRegisters(third_pseudo_inst)
+                funct = TypeR.getFunct(third_pseudo_inst[0])
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            arr_bin_machine.append(bm)
+
+        else:
+            opcode = TypeI.getOpcode(instruction[0])
+            rs, rt = TypeI.getIRegisters(instruction)
+            address = TypeI.getAddress(instruction)
+
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            arr_bin_machine.append(bm)
 
     else:
         print("ERROR - INSTRUCTION NOT RECOGNIZED")
