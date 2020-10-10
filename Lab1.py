@@ -64,7 +64,7 @@ def startAnalysis():
             bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
             arr_bin_machine.append(bm)
 
-        elif instruction[0] in ('add','sub','and','or','nor','xor'):
+        elif instruction[0] in ('add','sub','and','or','nor','xor', 'slt'):
             performance = Performance(instruction[0], 'type R', datetime.datetime.now())
 
             rs, rt, rd = TypeR.getRRegisters(instruction)

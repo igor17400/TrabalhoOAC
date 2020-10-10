@@ -47,6 +47,8 @@ class TypeR:
             return '100111'
         elif operation=="xor":
             return '100110'
+        elif operation=="slt":
+            return '101010'
         elif operation=="sll":
             return '000000'
         elif operation=="srl":
