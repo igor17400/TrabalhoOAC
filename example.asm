@@ -4,7 +4,10 @@ a: .word 1, 2, 3
 .text
 .globl main
 main:  
-lw    $t0, 1060($t0)      
+lw    $t0, 1060($t0)  
+clo $t0, $t1   
+clo $t3, $t7
+clo $t8, $t9   
 bgez  $t0, loop1
 bgezal  $t0, loop1
 lui   $t2, 0xffff         

@@ -19,6 +19,9 @@ class TypeR:
         elif instruction[0] == "jalr":
             rs = Registers.getReg(instruction[2][0],instruction[2][1])
             rt = '00000'
+        elif instruction[0] == "clo":
+            rs = Registers.getReg(instruction[2][0],instruction[2][1])
+            rt = '00000'
         elif instruction[0] == "and" and instruction[3].isdigit() or\
                 instruction[0] == "or" and instruction[3].isdigit() or\
                 instruction[0] == "xor" and instruction[3].isdigit():
@@ -58,5 +61,7 @@ class TypeR:
             return '010010'
         elif operation=="jalr":
             return "001001"
+        elif operation=="clo":
+            return "100001"
         else:
             print("ERROR - FUNCT NOT FOUND")
