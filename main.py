@@ -26,9 +26,9 @@ def main():
     print("Percentagem de memoria disponível: ", percentage_of_available_memory)
     print("------------------ ------------------ ------------------")
 
-    Performance.barChartPerInstruction(arr_performance_obj)
-    Performance.barChartPerType(arr_performance_obj)
-    Performance.displayMachineInfo()
+    # Performance.barChartPerInstruction(arr_performance_obj)
+    # Performance.barChartPerType(arr_performance_obj)
+    # Performance.displayMachineInfo()
 
 if __name__=="__main__": 
     main() 

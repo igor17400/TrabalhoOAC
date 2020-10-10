@@ -10,6 +10,7 @@ from TypeR import *
 from TypeJ import *
 from General import *
 from Performance import *
+from Saida import *
 
 def startAnalysis():
     arr_performance_obj = []
@@ -22,6 +23,7 @@ def startAnalysis():
     total_text_lines = getTotalTextLine(str_path)
     arr_bin_machine = []
     line_pos = 0
+    fake_line = 0
 
     print('--------------')
     print(labels_dict)
@@ -29,6 +31,7 @@ def startAnalysis():
     for i in range(total_text_lines):
 
         line = progamCounter(str_path, i)
+        fake_line += 1
 
         ## Pular os espaços em brancos e labels
         # if line.isspace() or re.sub(r"[\n\t\s]*", "", line)[-1] == ':'\
@@ -61,7 +64,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] in ('add','sub','and','or','nor','xor', 'slt'):
@@ -74,7 +77,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'sll' or instruction[0] == 'srl' or instruction[0] == 'sra':
@@ -101,7 +104,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'mfhi' or instruction[0] == 'mflo':
@@ -116,7 +119,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
         
         elif instruction[0] == 'srav':
@@ -129,7 +132,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'madd' or instruction[0] == 'msubu':
@@ -158,7 +161,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'j' or instruction[0] == 'jal':
@@ -171,7 +174,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineJ(line, str(line_pos), opcode, address)
+            bm = BinaryMachineJ(line, str(line_pos), opcode, address, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'jr':
@@ -184,7 +187,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineJ(line, str(line_pos), opcode, address)
+            bm = BinaryMachineJ(line, str(line_pos), opcode, address, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'jalr':
@@ -197,7 +200,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'lui':
@@ -211,7 +214,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
             arr_bin_machine.append(bm)
 
         elif instruction[0] == 'li':
@@ -233,7 +236,7 @@ def startAnalysis():
                 
 
                 # Criar o objeto e salva-lo em uma list para acesso posteriormente
-                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
                 arr_bin_machine.append(bm)
 
                 #### incrementar linha pseudo instrução
@@ -249,18 +252,27 @@ def startAnalysis():
                 rs, rt = TypeI.getIRegisters(second_inst)
                 address = TypeI.getAddress(second_inst)
 
+                performance.setTime2(datetime.datetime.now())
+                arr_performance_obj.append(performance)
+                # Criar o objeto e salva-lo em uma list para acesso posteriormente
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
+                bm.setIsPseudo(True)
+                arr_bin_machine.append(bm)
+
             else:
                 analogo_inst = ['addiu', instruction[1], '0', instruction[2]]
                 opcode = TypeI.getOpcode(analogo_inst[0])
                 rs, rt = TypeI.getIRegisters(analogo_inst)
                 address = TypeI.getAddress(analogo_inst)
 
-            performance.setTime2(datetime.datetime.now())
-            arr_performance_obj.append(performance)
+                performance.setTime2(datetime.datetime.now())
+                arr_performance_obj.append(performance)
+                # Criar o objeto e salva-lo em uma list para acesso posteriormente
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
+                arr_bin_machine.append(bm)
 
-            # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
-            arr_bin_machine.append(bm)
+
+            
 
         elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
                 instruction[0] == 'ori' or instruction[0] == 'xori':
@@ -276,7 +288,8 @@ def startAnalysis():
                 address = TypeI.getAddress(first_pseudo_inst)
 
                 # Criar o objeto e salva-lo em uma list para acesso posteriormente
-                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
+                bm.setIsPseudo(True)
                 arr_bin_machine.append(bm)
                 
                 #### incrementar linha pseudo instrução
@@ -289,7 +302,8 @@ def startAnalysis():
                 address = TypeI.getAddress(second_pseudo_inst)
 
                 # Criar o objeto e salva-lo em uma list para acesso posteriormente
-                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
+                bm.setIsPseudo(True)
                 arr_bin_machine.append(bm)
 
                 #### incrementar linha pseudo instrução
@@ -309,7 +323,7 @@ def startAnalysis():
                     funct = TypeR.getFunct(third_pseudo_inst[0])
 
                 # Criar o objeto e salva-lo em uma list para acesso posteriormente
-                bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct)
+                bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, '00000', funct, fake_line)
                 arr_bin_machine.append(bm)
 
             else: 
@@ -321,7 +335,7 @@ def startAnalysis():
                 arr_performance_obj.append(performance)
 
                 # Criar o objeto e salva-lo em uma list para acesso posteriormente
-                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+                bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address, fake_line)
                 arr_bin_machine.append(bm)
         
         elif instruction[0] == 'clo':
@@ -334,7 +348,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '011100', rs, rt, rd, '00000', funct)
+            bm = BinaryMachineR(line, str(line_pos), '011100', rs, rt, rd, '00000', funct, fake_line)
             arr_bin_machine.append(bm)
 
         else:
@@ -344,6 +358,9 @@ def startAnalysis():
             print('------------------')
 
         line_pos += 1
+
+    ## Salvar arquivo .mif
+    Saida.saveFileText(arr_bin_machine, 'arquivo_de_saida')
 
     return arr_bin_machine, arr_performance_obj
     
