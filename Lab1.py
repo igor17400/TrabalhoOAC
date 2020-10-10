@@ -128,11 +128,49 @@ for i in range(total_text_lines):
         bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
         arr_bin_machine.append(bm)
 
+    elif instruction[0] == 'li':
+        num = int(instruction[2], 0)
+        if num/65536.0 > 1:
+            # Significa que vamos precisar de uma pseudo instrução
+            num_lui = '0x'
+            num_hex = hex(num)[6:]
+            for i in range(8 - len(num_hex)):
+                num_lui += '0'
+            num_lui += num_hex
+            first_inst = ['lui', '1', num_lui]
+            opcode = TypeI.getOpcode(first_inst[0])
+            rs, rt = TypeI.getIRegisters(first_inst)
+            address = TypeI.getAddress(first_inst)
+            
+            # Criar o objeto e salva-lo em uma list para acesso posteriormente
+            bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+            arr_bin_machine.append(bm)
+
+            num_lui = '0x'
+            num_hex = hex(num)[:6]
+            for i in range(8 - len(num_hex)):
+                num_lui += '0'
+            num_lui += num_hex[2:]
+            second_inst = ['ori', instruction[1], '1', num_lui]
+            opcode = TypeI.getOpcode(second_inst[0])
+            rs, rt = TypeI.getIRegisters(second_inst)
+            address = TypeI.getAddress(second_inst)
+
+        else:
+            analogo_inst = ['addiu', instruction[1], '0', instruction[2]]
+            opcode = TypeI.getOpcode(analogo_inst[0])
+            rs, rt = TypeI.getIRegisters(analogo_inst)
+            address = TypeI.getAddress(analogo_inst)
+
+        # Criar o objeto e salva-lo em uma list para acesso posteriormente
+        bm = BinaryMachineI(line, str(line_pos), opcode, rs, rt, address)
+        arr_bin_machine.append(bm)
+
     elif instruction[0] == 'addi' or instruction[0] == 'andi' or\
             instruction[0] == 'ori' or instruction[0] == 'xori':
         imidiate_int = int(instruction[3], 0)
         if imidiate_int < 0 and (instruction[0] == 'andi' or\
-             instruction[0] == 'ori' or instruction[0] == 'xori'):
+                    instruction[0] == 'ori' or instruction[0] == 'xori'):
             first_pseudo_inst = ['lui', '1', '0xffff']
             opcode = TypeI.getOpcode(first_pseudo_inst[0])
             rs, rt = TypeI.getIRegisters(first_pseudo_inst)

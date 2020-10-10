@@ -12,3 +12,7 @@ andi  $t1, $t0, 10
 andi  $t1, $t0, -10
 ori   $t5, $t6, -10
 xori   $t2, $t2, -10
+li	$t1, 5
+li	$t1, 0xfffff
+li	$t1, 0xbbbbbb
+li  $t1, 12303291
