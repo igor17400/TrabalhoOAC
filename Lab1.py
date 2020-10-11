@@ -25,18 +25,14 @@ def startAnalysis():
     line_pos = 0
     fake_line = 0
 
-    print('--------------')
-    print(labels_dict)
-    print('--------------')
+    #print('--------------')
+    #print(labels_dict)
+    #print('--------------')
     for i in range(total_text_lines):
 
         line = progamCounter(str_path, i)
         fake_line += 1
 
-        ## Pular os espaços em brancos e labels
-        # if line.isspace() or re.sub(r"[\n\t\s]*", "", line)[-1] == ':'\
-        #         or re.sub(r"[\n\t\s]*", "", line)[0] == '.':
-        #     continue
         if line.isspace():
             continue
 
@@ -48,8 +44,6 @@ def startAnalysis():
 
         if instruction[0][-1] == ':' or instruction[0][0] == '.':
             continue
-
-        print (f"Instruction:{instruction}")
 
         if instruction[0] == 'lw' or instruction[0] == 'sw':
             ## instrução para conseguir performance

@@ -10,7 +10,7 @@ def main():
     start_time = datetime.datetime.now()
     arr_bin_machine, arr_performance_obj = startAnalysis()
     end_time = datetime.datetime.now()
-    displayMachine(arr_bin_machine)
+    #displayMachine(arr_bin_machine) ~~~~> mostra as intruções no terminal
 
     # gives a single float value
     cpu_percent = psutil.cpu_percent()
@@ -26,10 +26,7 @@ def main():
     print("Memória virtual utilizada: ", virtual_memory)
     print("Percentagem de memoria disponível: ", percentage_of_available_memory)
     print("------------------ ------------------ ------------------")
-
-    # Performance.barChartPerInstruction(arr_performance_obj)
-    # Performance.barChartPerType(arr_performance_obj)
-    # Performance.displayMachineInfo()
+    print("Arquivos de saída disponíveis em saida_data.mif e saida_text.mif")
 
 if __name__=="__main__": 
     data()
