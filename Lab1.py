@@ -360,7 +360,7 @@ def startAnalysis():
         line_pos += 1
 
     ## Salvar arquivo .mif
-    Saida.saveFileText(arr_bin_machine, 'arquivo_de_saida')
+    Saida.saveFileText(arr_bin_machine, 'saida_text')
 
     return arr_bin_machine, arr_performance_obj
     

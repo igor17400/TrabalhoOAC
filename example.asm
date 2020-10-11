@@ -1,5 +1,12 @@
 .data
-a: .word 1, 2, 3
+
+a: .word 6, 5, 4
+
+b: .word 15
+c: .word 10, 5
+
+teste_maluco: .word 1, 2, 3
+
 
 .text
 .globl main

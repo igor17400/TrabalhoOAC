@@ -60,3 +60,25 @@ class Saida:
 
         f.write(line_str)
         f.close()
+
+    def saveFileData(arr_data, name):
+        open("{}.mif".format(name), 'w').close()
+        f = open("{}.mif".format(name), 'r+')
+
+        f.write("DEPTH = 16384;\n")
+        f.write("WIDTH = 32;\n")
+        f.write("ADDRESS_RADIX = HEX;\n")
+        f.write("DATA_RADIX = HEX;\n")
+        f.write("CONTENT\n")
+        f.write("BEGIN\n")
+        f.write("\n")
+
+        count = 0
+        line_str = ''
+        for data in arr_data:
+            count_hex = "{0:#0{1}x} : ".format(count,10)
+            line_str += count_hex + data +'\n'
+            count += 4
+            
+        f.write(line_str)
+        f.close()

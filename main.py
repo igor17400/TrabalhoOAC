@@ -2,6 +2,7 @@ import datetime
 import psutil
 
 from Lab1 import *
+from data import *
 
 def main():
     arr_performance_obj = []
@@ -31,4 +32,5 @@ def main():
     # Performance.displayMachineInfo()
 
 if __name__=="__main__": 
+    data()
     main() 
