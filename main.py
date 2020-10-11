@@ -3,6 +3,7 @@ import psutil
 
 from Lab1 import *
 from data import *
+from DataAddress import *
 
 def main():
     arr_performance_obj = []
@@ -11,6 +12,10 @@ def main():
     arr_bin_machine, arr_performance_obj = startAnalysis()
     end_time = datetime.datetime.now()
     #displayMachine(arr_bin_machine) ~~~~> mostra as intruções no terminal
+
+    Performance.barChartPerInstruction(arr_performance_obj)
+    Performance.barChartPerType(arr_performance_obj)
+    Performance.barChartAverageTimePerType(arr_performance_obj)
 
     # gives a single float value
     cpu_percent = psutil.cpu_percent()
@@ -28,6 +33,7 @@ def main():
     print("------------------ ------------------ ------------------")
     print("Arquivos de saída disponíveis em saida_data.mif e saida_text.mif")
 
+    Performance.displayMachineInfo()
+
 if __name__=="__main__": 
-    data()
     main() 

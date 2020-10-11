@@ -79,6 +79,39 @@ class Performance:
 
         plt.show()
 
+    def barChartAverageTimePerType(array_performance):
+        arr_type_commands = []
+        dict_calculatedTime = {"type R": 0, "type I": 0, "type J": 0}
+        dict_type_occurences = {"type R": 0, "type I": 0, "type J": 0}
+        
+        for performance in array_performance:
+            arr_type_commands.append(performance.getTypeCommand())
+        
+        for performance in array_performance:
+            dict_type_occurences[performance.getTypeCommand()] += 1
+
+        for performance in array_performance:
+            dict_calculatedTime[performance.getTypeCommand()] += performance.calculateTime().total_seconds()
+        
+        for key, value in dict_calculatedTime.items():
+            if (dict_type_occurences[key] != 0):
+                div = value/dict_type_occurences[key]
+                print(div)
+                dict_calculatedTime[key] = div
+
+        fig, ax = plt.subplots()
+
+        objects = ("type R", "type I", "type J")
+        y_pos = np.arange(len(objects))
+        performance = dict_calculatedTime.values()
+
+        plt.barh(y_pos, performance, align='center', alpha=0.5)
+        plt.yticks(y_pos, objects)
+        plt.xlabel('Tempo de processamento')
+        plt.title('Tempo de processamento médio para cada tipo de instrução')
+
+        plt.show()
+
     def get_size(bytes, suffix="B"):
         """
             Scale bytes to its proper format

@@ -1,9 +1,10 @@
 import re
-from DataAddress import *
+from data import *
 from Saida import *
+from DataAddress import *
 
-def data():
-    f = open("example.asm", "r")
+def data(str_name):
+    f = open(str_name, "r")
     f = f.read().splitlines()
 
     k = 0

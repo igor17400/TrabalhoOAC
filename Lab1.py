@@ -11,6 +11,8 @@ from TypeJ import *
 from General import *
 from Performance import *
 from Saida import *
+from data import *
+from DataAddress import *
 
 def startAnalysis():
     arr_performance_obj = []
@@ -18,6 +20,7 @@ def startAnalysis():
     # str_path = input('Insira o path para o arquivo .asm: ')
     # str_path = "./simpleExpression/simple_expression.asm"
     str_path = input('Informe o arquivo .asm (informe o path):')
+    data(str_path)
 
     labels_dict, total_execution_lines = getLabelsDict(str_path)
     total_text_lines = getTotalTextLine(str_path)
@@ -85,7 +88,7 @@ def startAnalysis():
             arr_performance_obj.append(performance)
 
             # Criar o objeto e salva-lo em uma list para acesso posteriormente
-            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, shamt, funct)
+            bm = BinaryMachineR(line, str(line_pos), '000000', rs, rt, rd, shamt, funct, fake_line)
             arr_bin_machine.append(bm)
         
         elif instruction[0] == 'mult' or instruction[0] == 'div':
