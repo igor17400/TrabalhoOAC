@@ -17,7 +17,7 @@ def startAnalysis():
 
     # str_path = input('Insira o path para o arquivo .asm: ')
     # str_path = "./simpleExpression/simple_expression.asm"
-    str_path = "./example.asm"
+    str_path = input('Informe o arquivo .asm (informe o path):')
 
     labels_dict, total_execution_lines = getLabelsDict(str_path)
     total_text_lines = getTotalTextLine(str_path)
